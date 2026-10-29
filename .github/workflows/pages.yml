@@ -1,0 +1,52 @@
+name: Publish portfolio
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Import portfolio files
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib, zipfile
+          root = pathlib.Path('public')
+          root.mkdir(exist_ok=True)
+          for archive in sorted(pathlib.Path('.').glob('portfolio-part-*.zip')):
+              with zipfile.ZipFile(archive) as z:
+                  for item in z.infolist():
+                      name = pathlib.PurePosixPath(item.filename)
+                      if name.is_absolute() or '..' in name.parts:
+                          raise ValueError('Unsafe archive path')
+                  z.extractall(root)
+              archive.unlink()
+          (root / '.nojekyll').touch()
+          assert (root / 'index.html').is_file()
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Import approved portfolio source and media'
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
