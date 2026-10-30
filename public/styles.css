@@ -87,3 +87,21 @@ body:has(dialog[open]){overflow:hidden}dialog{position:fixed;inset:0;border:0;ba
 .contact .max-contact{border:1px solid #ffffff70;background:transparent;color:var(--paper)}
 .contact .max-contact:hover{background:var(--paper);color:var(--ink)}
 @media(max-width:620px){.contact-messengers{align-items:stretch;flex-direction:column}.contact-messengers .button{width:100%;justify-content:space-between}}
+
+/* Consistent case gallery: equal frames, complete artwork, aligned rows. */
+.case-detail .case-media-section{max-width:1120px;margin-inline:auto}
+.case-materials-content{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px;align-items:start}
+.case-materials-content figure{width:100%;max-width:none;margin:0}
+.case-materials-content button{background:#eaeae3;border-radius:18px}
+.case-materials-content img{width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:#eaeae3}
+.case-materials-content figcaption{margin-top:10px}
+.case-materials-content .image-zoom{background:var(--paper)}
+.case-materials-statistics{max-width:none;gap:28px}
+.case-materials-statistics img{width:100%;height:auto;object-fit:contain;background:var(--paper)}
+@media(max-width:620px){
+  .case-materials-content{grid-template-columns:minmax(0,1fr);gap:24px}
+  .case-materials-content .material-portrait{width:100%;max-width:none;margin:0}
+  .case-materials-content img{aspect-ratio:auto;height:auto}
+  .case-materials-statistics{gap:24px}
+}
+
