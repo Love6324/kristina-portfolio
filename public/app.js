@@ -203,7 +203,7 @@ function revealSections() {
 
 async function init() {
   try{
-    const response=await fetch('content.json');if(!response.ok)throw Error('Не удалось загрузить содержание');data=await response.json();
+    const response=await fetch('content.json?v=20261030-gallery');if(!response.ok)throw Error('Не удалось загрузить содержание');data=await response.json();
     if(draft){try{const stored=localStorage.getItem('kristina-portfolio-draft');if(stored)data=JSON.parse(stored);}catch{/* No browser storage: use repository content. */}}
     const errors=validateContent(data);if(errors.length)throw Error(errors.join('; '));
     if(draft){try{data=await hydrateDraftMedia(data);}catch{/* Existing files remain usable when IndexedDB is disabled. */}}
@@ -215,3 +215,4 @@ async function init() {
   }catch(error){console.error(error);$('#main').innerHTML=`<section class="wrap not-found"><h1>Не удалось загрузить портфолио</h1><p>Попробуйте обновить страницу.</p>${btn('Написать в Telegram','https://t.me/MikhalevaKS','lime',true)}</section>`;}
 }
 init();
+
