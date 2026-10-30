@@ -274,13 +274,6 @@
           "kind": "content",
           "width": 1254,
           "height": 1254
-        },
-        {
-          "src": "assets/cases/drive/case-3-material-6.webp",
-          "caption": "Пример контента 5",
-          "kind": "content",
-          "width": 941,
-          "height": 1672
         }
       ],
       "missingMaterials": [
@@ -1032,3 +1025,4 @@
     }
   ]
 }
+
